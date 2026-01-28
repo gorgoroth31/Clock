@@ -33,6 +33,7 @@ fn read_times() -> Vec<String> {
 #[tauri::command]
 fn add_time(time: String) {
     println!("time will be added: {}", time);
+    // dont add time, if already present
 
     let whole_path_string = get_file_path();
 
@@ -50,6 +51,31 @@ fn add_time(time: String) {
     let serialized = serde_json::to_string(&data).unwrap();
 
     file.write(serialized.as_bytes()).expect("adding time failes");
+    drop(file);    
+}
+
+#[tauri::command]
+fn delete_time(time: String) {
+    println!("time will be deleted: {}", time);
+
+    let whole_path_string = get_file_path();
+
+    let path = Path::new(&whole_path_string);
+
+    let mut data = read_times();
+
+    data.retain(|v| v != &time);
+
+    let serialized = serde_json::to_string(&data).unwrap();
+
+    println!("{}", serialized);
+    // irgendwie wird das hier nicht passend abgespeichert
+    let mut file = OpenOptions::new()
+        .write(true)
+        .open(path)
+        .expect("cannot open file");
+    
+    file.write(serialized.as_bytes()).expect("deleting time failes");
 }
 
 fn get_file_path() -> String {
@@ -102,7 +128,7 @@ pub fn run() {
 
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![read_times, add_time])
+        .invoke_handler(tauri::generate_handler![read_times, add_time, delete_time])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

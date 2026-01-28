@@ -1,26 +1,27 @@
 <template>
   <main class="container">
-    <h1>Welcome to Clockio!</h1>
+      <h1>Wecker</h1>
+      <br>
+      <div v-for="time in times">
+        <TimeCard :time="time" v-on:delete="deleteTime"></TimeCard>
+      </div>
 
-    <p v-for="time in times">
-      {{ time }}
-    </p>
-
-    <div class="row">
-      <AddTimeDialog @submit="addTime"></AddTimeDialog>
-    </div>
+      <div class="row">
+        <AddTimeDialog @submit="addTime"></AddTimeDialog>
+      </div>
   </main>
 </template>
 
 <script setup lang="ts">
 import { onMounted, Ref, ref } from "vue";
 import { invoke } from "@tauri-apps/api/core";
-import AddTimeDialog from "./dialogs/AddTimeDialog.vue";
+import AddTimeDialog from "./components/dialogs/AddTimeDialog.vue";
+import TimeCard from "./components/TimeCard.vue";
 
 const times: Ref<string[]> = ref([])
 
 onMounted(() => {
-    loadTimes()
+  loadTimes()
 })
 
 async function addTime(time: string) {
@@ -32,6 +33,13 @@ async function addTime(time: string) {
 
 async function loadTimes() {
   times.value = await invoke("read_times")
+}
+
+async function deleteTime(time: string) {
+  await invoke('delete_time', {
+    time: time
+  })
+  await loadTimes();
 }
 
 </script>
