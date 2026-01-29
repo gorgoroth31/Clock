@@ -1,12 +1,14 @@
 <template>
   <v-app>
     <v-main>
-        <v-tabs class="main-tabs" align-tabs="center" color="primary" v-model="tab">
+      <v-container class="centered-row pa-0">
+        <v-tabs bg-color="#1b1b1b" class="main-tabs" color="primary" v-model="tab">
           <v-tab value="alarm">Alarms</v-tab>
           <v-tab value="clock">World Clock</v-tab>
           <v-tab value="stopwatch">Stopwatch</v-tab>
           <v-tab value="timers">Timers</v-tab>
         </v-tabs>
+      </v-container>
 
       <v-tabs-window class="pa-5" v-model="tab">
         <v-tabs-window-item value="alarm">
@@ -55,7 +57,9 @@ async function setDarkMode() {
 
 </script>
 
-<style>
-.main-tabs {
+<style scoped>
+.main-tabs > div > div > button:first-of-type {
+  border-top-left-radius: 20px;
+  overflow: hidden;
 }
 </style>

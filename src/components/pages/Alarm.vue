@@ -45,10 +45,3 @@ async function deleteTime(time: string) {
 }
 
 </script>
-
-<style scoped>
-.centered-row {
-    display: flex;
-    justify-content: center;
-}
-</style>
