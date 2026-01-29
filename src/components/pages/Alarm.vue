@@ -1,10 +1,10 @@
 <template>
-    <div v-if="times.length === 0">
+    <div v-if="alarms.length === 0">
         <div class="centered-row">No times saved yet</div>
         <br>
     </div>
     <v-container v-else>
-        <div v-for="time in times">
+        <div v-for="time in alarms">
             <TimeCard :time="time" v-on:delete="deleteTime"></TimeCard>
             <br>
         </div>
@@ -20,28 +20,28 @@ import { invoke } from "@tauri-apps/api/core";
 import AddTimeDialog from "./../dialogs/AddTimeDialog.vue";
 import TimeCard from "./../TimeCard.vue";
 
-const times: Ref<string[]> = ref([])
+const alarms: Ref<string[]> = ref([])
 
 onMounted(() => {
-    loadTimes()
+    loadAlarms()
 })
 
 async function addTime(time: string) {
     await invoke('add_time', {
         time: time
     })
-    await loadTimes();
+    await loadAlarms();
 }
 
-async function loadTimes() {
-    times.value = await invoke("read_times")
+async function loadAlarms() {
+    alarms.value = await invoke("read_alarms")
 }
 
 async function deleteTime(time: string) {
     await invoke('delete_time', {
         time: time
     })
-    await loadTimes();
+    await loadAlarms();
 }
 
 </script>
