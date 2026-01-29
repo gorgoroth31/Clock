@@ -1,29 +1,20 @@
 use std::env;
 use std::fs::{self, File};
-use std::io::prelude::*;
 use std::path::Path;
 use dirs;
 use dotenv::dotenv;
 
 #[tauri::command]
 fn is_dark_mode() -> bool {
-    let home_path = dirs::home_dir().unwrap().display().to_string();
-    let mut whole_path = home_path.to_owned();
-    whole_path.push_str("/.config/cosmic/com.system76.CosmicTheme.Mode/v1/is_dark");
-
-    let mut file = match File::open(&whole_path) {
-        Err(why) => panic!("couldn't open {}", why),
-        Ok(file) => file,
-    };
-
-    let mut content = String::new();
-
-    match file.read_to_string(&mut content) {
-        Err(why) => panic!("couldn't read {}: {}", whole_path, why),
-        Ok(_) => println!("{} has been read", whole_path),
+    let is_dark_mode;
+    
+    match dark_light::detect().unwrap() {
+        dark_light::Mode::Dark => is_dark_mode = true,
+        dark_light::Mode::Light => is_dark_mode = false,
+        dark_light::Mode::Unspecified => is_dark_mode = true,
     }
 
-    content == "true"
+    is_dark_mode
 }
 
 #[tauri::command]
@@ -99,28 +90,6 @@ fn create_directories_if_not_existing() {
     alarms_path_string.push_str(&alarms);
 
     fs::create_dir_all(alarms_path_string).unwrap();
-    /* 
-    let directory_path = Path::new(&whole_path_string);
-
-    let directory_exists = directory_path.exists();
-
-    if !directory_exists {
-        println!("creating directory at {}", whole_path_string);
-        fs::create_dir_all(directory_path).unwrap();
-    }
-
-    whole_path_string.push_str("/");
-    whole_path_string.push_str(&filename);
-
-    let path_exists = Path::new(&whole_path_string).exists();
-
-    if !path_exists {
-        println!("creating file at {}", whole_path_string);
-        let mut file = File::create_new(&whole_path_string).expect("creation failed");
-
-        file.write("[]".as_bytes()).expect("write failed");
-    }
-    */
 }
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
