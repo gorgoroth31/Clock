@@ -4,13 +4,8 @@ import '@mdi/font/css/materialdesignicons.css'
 
 // Vuetify
 import 'vuetify/styles'
-import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
+import vuetify from "./plugins/vuetify";
 
-const vuetify = createVuetify({
-  components,
-  directives,
-})
+const vuetifyConfig = vuetify
 
-createApp(App).use(vuetify).mount("#app");
+createApp(App).use(vuetifyConfig).mount("#app");
