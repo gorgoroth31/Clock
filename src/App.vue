@@ -1,6 +1,6 @@
 <template>
   <main class="container">
-      <h1>Wecker</h1>
+      <h1>Cosmic Clock</h1>
       <br>
       <div v-for="time in times">
         <TimeCard :time="time" v-on:delete="deleteTime"></TimeCard>

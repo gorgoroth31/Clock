@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    clockio_lib::run()
+    cosmic_clock_lib::run()
 }

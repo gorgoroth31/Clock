@@ -442,19 +442,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "clockio"
-version = "0.1.0"
-dependencies = [
- "dirs",
- "dotenv",
- "serde",
- "serde_json",
- "tauri",
- "tauri-build",
- "tauri-plugin-opener",
-]
-
-[[package]]
 name = "combine"
 version = "4.6.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -527,6 +514,19 @@ dependencies = [
  "bitflags 2.10.0",
  "core-foundation",
  "libc",
+]
+
+[[package]]
+name = "cosmic-clock"
+version = "0.1.0"
+dependencies = [
+ "dirs",
+ "dotenv",
+ "serde",
+ "serde_json",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-opener",
 ]
 
 [[package]]
