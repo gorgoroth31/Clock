@@ -8,6 +8,27 @@ use dirs;
 use dotenv::dotenv;
 
 #[tauri::command]
+fn is_dark_mode() -> bool {
+    let home_path = dirs::home_dir().unwrap().display().to_string();
+    let mut whole_path = home_path.to_owned();
+    whole_path.push_str("/.config/cosmic/com.system76.CosmicTheme.Mode/v1/is_dark");
+
+    let mut file = match File::open(&whole_path) {
+        Err(why) => panic!("couldn't open {}", why),
+        Ok(file) => file,
+    };
+
+    let mut content = String::new();
+
+    match file.read_to_string(&mut content) {
+        Err(why) => panic!("couldn't read {}: {}", whole_path, why),
+        Ok(_) => println!("{} has been read", whole_path),
+    }
+
+    content == "true"
+}
+
+#[tauri::command]
 fn read_times() -> Vec<String> {
     let whole_path_string = get_file_path();
 
@@ -124,7 +145,7 @@ pub fn run() {
 
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![read_times, add_time, delete_time])
+        .invoke_handler(tauri::generate_handler![read_times, add_time, delete_time, is_dark_mode])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
