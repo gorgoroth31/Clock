@@ -7,3 +7,4 @@ edition = "2024"
 src_helper = { path = "../src_helper" }
 dotenv = "0.15.0"
 chrono = "0.4.43"
+rodio = "0.21.1"
