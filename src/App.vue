@@ -4,8 +4,8 @@
       <br>
       <div v-for="time in times">
         <TimeCard :time="time" v-on:delete="deleteTime"></TimeCard>
+        <br>
       </div>
-
       <div class="row">
         <AddTimeDialog @submit="addTime"></AddTimeDialog>
       </div>

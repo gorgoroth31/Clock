@@ -33,16 +33,6 @@ fn read_times() -> Vec<String> {
 #[tauri::command]
 fn add_time(time: String) {
     println!("time will be added: {}", time);
-    // dont add time, if already present
-
-    let whole_path_string = get_file_path();
-
-    let path = Path::new(&whole_path_string);
-
-    let mut file = OpenOptions::new()
-        .write(true)
-        .open(path)
-        .expect("cannot open file");
 
     let mut data = read_times();
 
@@ -50,17 +40,19 @@ fn add_time(time: String) {
 
     let serialized = serde_json::to_string(&data).unwrap();
 
+    let whole_path_string = get_file_path();
+
+    let mut file = OpenOptions::new()
+        .write(true)
+        .open(whole_path_string)
+        .expect("cannot open file");
+
     file.write(serialized.as_bytes()).expect("adding time failes");
-    drop(file);    
 }
 
 #[tauri::command]
 fn delete_time(time: String) {
     println!("time will be deleted: {}", time);
-
-    let whole_path_string = get_file_path();
-
-    let path = Path::new(&whole_path_string);
 
     let mut data = read_times();
 
@@ -68,13 +60,17 @@ fn delete_time(time: String) {
 
     let serialized = serde_json::to_string(&data).unwrap();
 
-    println!("{}", serialized);
-    // irgendwie wird das hier nicht passend abgespeichert
+    let whole_path_string = get_file_path();
+
     let mut file = OpenOptions::new()
         .write(true)
-        .open(path)
+        .open(whole_path_string)
         .expect("cannot open file");
-    
+
+    // needed to remove contents of file before writing new data
+    // no idea why, but without this line, the data is not being written properly
+    file.set_len(0).unwrap();
+
     file.write(serialized.as_bytes()).expect("deleting time failes");
 }
 
