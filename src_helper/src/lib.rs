@@ -1,7 +1,6 @@
 use std::{env, fs};
 use dirs;
 
-
 pub fn read_alarms() -> Vec<String> {
     let whole_path_string = get_alarms_path();
 

@@ -1,0 +1,9 @@
+[package]
+name = "src-service"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+src_helper = { path = "../src_helper" }
+dotenv = "0.15.0"
+chrono = "0.4.43"
