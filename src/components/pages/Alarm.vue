@@ -1,6 +1,6 @@
 <template>
     <div v-if="times.length === 0">
-        <div>No times saved yet</div>
+        <div class="centered-row">No times saved yet</div>
         <br>
     </div>
     <v-container v-else>
@@ -9,7 +9,7 @@
             <br>
         </div>
     </v-container>
-    <div class="row">
+    <div class="centered-row w-100">
         <AddTimeDialog @submit="addTime"></AddTimeDialog>
     </div>
 </template>
@@ -47,8 +47,8 @@ async function deleteTime(time: string) {
 </script>
 
 <style scoped>
-.add-time {
-    font-size: 2em;
-    padding: .2em .5em;
+.centered-row {
+    display: flex;
+    justify-content: center;
 }
 </style>

@@ -1,11 +1,11 @@
 <template>
   <v-app>
     <v-main>
-        <v-tabs align-tabs="center" color="primary" v-model="tab">
-          <v-tab value="alarm">Alarm</v-tab>
-          <v-tab value="clock">Clock</v-tab>
+        <v-tabs class="main-tabs" align-tabs="center" color="primary" v-model="tab">
+          <v-tab value="alarm">Alarms</v-tab>
+          <v-tab value="clock">World Clock</v-tab>
           <v-tab value="stopwatch">Stopwatch</v-tab>
-          <v-tab value="timer">Timer</v-tab>
+          <v-tab value="timers">Timers</v-tab>
         </v-tabs>
 
       <v-tabs-window class="pa-5" v-model="tab">
@@ -21,7 +21,7 @@
           <div>Stopwatch coming soon</div>
         </v-tabs-window-item>
 
-        <v-tabs-window-item value="timer">
+        <v-tabs-window-item value="timers">
           <div>Timer coming soon</div>
         </v-tabs-window-item>
       </v-tabs-window>
@@ -54,3 +54,8 @@ async function setDarkMode() {
 }
 
 </script>
+
+<style>
+.main-tabs {
+}
+</style>

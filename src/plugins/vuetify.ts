@@ -43,9 +43,9 @@ const customLightTheme = {
 const customDarkTheme = {
     dark: true,
     colors: {
-        background: '#181818',
-        surface: '#282828',
-        surfaceLighter: '#787878',
+        background: '#1e1e1e',
+        surface: '#323232',
+        surfaceLighter: '#4a4a4a',
         primary: '#1867C0',
         secondary: '#48A9A6',
         error: '#B00020',
