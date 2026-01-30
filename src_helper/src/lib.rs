@@ -9,8 +9,6 @@ pub struct Alarm {
 }
 
 pub fn string_to_alarm(s: String) -> Alarm {
-    println!("mapping {}", s);
-
     let alarm: Alarm = Alarm {
         hour: s.get(0..2).unwrap().to_string(),
         minute: s.get(3..5).unwrap().to_string(),
