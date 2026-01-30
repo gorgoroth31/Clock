@@ -3492,6 +3492,7 @@ name = "src_helper"
 version = "0.1.0"
 dependencies = [
  "dirs",
+ "serde",
 ]
 
 [[package]]

@@ -2,7 +2,7 @@ use std::env;
 use std::fs::{self, File};
 use std::path::Path;
 use dotenv::dotenv;
-use src_helper;
+use src_helper::{self, Alarm};
 
 #[tauri::command]
 fn is_dark_mode() -> bool {
@@ -18,16 +18,18 @@ fn is_dark_mode() -> bool {
 }
 
 #[tauri::command]
-fn read_alarms() -> Vec<String> {
+fn read_alarms() -> Vec<Alarm> {
     let v = src_helper::read_alarms();
     v
 }
 
 #[tauri::command]
-fn add_time(time: String) {
-    println!("time will be added: {}", time);
+fn add_alarm(alarm: String) {
+    println!("alarm will be added: {}", alarm);
 
-    let alarms_path_string = src_helper::get_path_for_time(time);
+    let alarm_model = src_helper::string_to_alarm(alarm);
+
+    let alarms_path_string = src_helper::get_path_for_alarm(alarm_model);
     
     let path_exists = Path::new(&alarms_path_string).exists();
 
@@ -38,10 +40,10 @@ fn add_time(time: String) {
 }
 
 #[tauri::command]
-fn delete_time(time: String) {
-    println!("time will be deleted: {}", time);
+fn delete_alarm(alarm: Alarm) {
+    println!("alarm will be deleted: {}:{}", alarm.hour, alarm.minute);
 
-    let file_path = src_helper::get_path_for_time(time);
+    let file_path = src_helper::get_path_for_alarm(alarm);
 
     fs::remove_file(file_path).unwrap();
 }
@@ -54,7 +56,7 @@ pub fn run() {
 
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
-        .invoke_handler(tauri::generate_handler![read_alarms, add_time, delete_time, is_dark_mode])
+        .invoke_handler(tauri::generate_handler![read_alarms, add_alarm, delete_alarm, is_dark_mode])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
