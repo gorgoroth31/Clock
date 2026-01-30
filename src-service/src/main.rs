@@ -4,6 +4,7 @@ use std::{thread, time};
 use std::time::{SystemTime};
 use std::fs::File;
 use std::io::BufReader;
+use dialog::DialogBox;
 use src_helper;
 
 fn main() {
@@ -19,15 +20,22 @@ fn main() {
         let hour = datetime.hour();
         let minute = datetime.minute();
 
-        for _alarm in all_alarms {
-            println!("{}:{}", hour, minute);
-            let stream_handle = rodio::OutputStreamBuilder::open_default_stream()
-                    .expect("open default audio stream");
+        for alarm in all_alarms {
+            let parsed_alarm_hour = alarm.hour.parse::<u32>().unwrap();
+            let parsed_alarm_minute = alarm.minute.parse::<u32>().unwrap();
 
-            let file = BufReader::new(File::open("alarm.mp3").unwrap());
-            let _sink = rodio::play(&stream_handle.mixer(), file).unwrap();
+            if parsed_alarm_hour == hour && parsed_alarm_minute == minute {
+                let stream_handle = rodio::OutputStreamBuilder::open_default_stream()
+                        .expect("open default audio stream");
 
-            std::thread::sleep(std::time::Duration::from_secs(5));
+                let file = BufReader::new(File::open("alarm.mp3").unwrap());
+                let _sink = rodio::play(&stream_handle.mixer(), file).unwrap();
+
+                dialog::Message::new("ALAAAARM")
+                    .title("ALARM")
+                    .show()
+                    .expect("Could not display dialog box");
+            }        
         }
 
         let current_seconds = Utc::now().second();

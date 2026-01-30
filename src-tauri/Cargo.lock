@@ -548,8 +548,6 @@ version = "0.1.0"
 dependencies = [
  "dark-light",
  "dotenv",
- "serde",
- "serde_json",
  "src_helper",
  "tauri",
  "tauri-build",
@@ -3493,6 +3491,7 @@ version = "0.1.0"
 dependencies = [
  "dirs",
  "serde",
+ "serde_json",
 ]
 
 [[package]]
