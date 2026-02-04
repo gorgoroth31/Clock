@@ -14,19 +14,20 @@
           hide-title
           density="compact"
           format="24hr"
+          v-on:update:hour="onUpdate"
+          v-on:update:minute="onUpdate"
           v-model:model-value=time>
         </v-time-picker>
-
         <v-card-actions>
           <v-btn
             text="Schließen"
-            @click="isActive.value = false"
+            @click="() => close(isActive)"
           ></v-btn>
           <v-spacer></v-spacer>
           <v-btn
             text="Hinzufügen"
+            :disabled="!isValid"
             @click="() => addTime(isActive)">
-
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -35,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, Ref } from 'vue';
+import { onMounted, ref, Ref } from 'vue';
 
 const emit = defineEmits({
   submit(_time: string) {}
@@ -43,8 +44,20 @@ const emit = defineEmits({
 
 const time : Ref<string> = ref("")
 
-function addTime(isActive: Ref<boolean, boolean>) {
+const isValid: Ref<boolean> = ref(false)
+
+function close(isActive: Ref<boolean, boolean>) {
   isActive.value = false
+  time.value = ""
+}
+
+function addTime(isActive: Ref<boolean, boolean>) {
+  close(isActive)
   emit('submit', time.value)
+}
+
+
+function onUpdate() {
+  isValid.value = time.value !== ""
 }
 </script>
