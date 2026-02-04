@@ -14,3 +14,14 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
 
 You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+
+
+## How to install
+1. make sure, you have all prerequisites installed: [Link](https://v2.tauri.app/start/prerequisites/)
+2. Clone repository
+3. run ./install.sh
+
+
+3. run npm install
+4. run npm run build
+5. in src-tauri/target/release/bundle is the appimage bundle. 

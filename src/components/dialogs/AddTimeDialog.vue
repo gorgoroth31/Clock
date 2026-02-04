@@ -36,7 +36,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, Ref } from 'vue';
+import { ref, Ref } from 'vue';
 
 const emit = defineEmits({
   submit(_time: string) {}
